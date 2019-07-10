@@ -6,6 +6,10 @@
   "bin": {
     "project-translator": "./bin/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/douglasskiser/project-translator.git"
+  },
   "scripts": {
     "test": "node ./test/index.js | tap-spec",
     "lint": "./node_modules/.bin/eslint ./lib/*.js ./lib/**/*.js",
