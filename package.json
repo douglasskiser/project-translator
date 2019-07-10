@@ -4,7 +4,11 @@
   "description": "A project translator",
   "main": "./lib/index.js",
   "bin": {
-    "translate-project": "./bin/index.js"
+    "project-translator": "./bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/douglasskiser/project-translator.git"
   },
   "scripts": {
     "test": "node ./test/index.js | tap-spec",
@@ -18,6 +22,8 @@
     "aws-sdk": "^2.449.0",
     "cli-progress": "^2.1.1",
     "colors": "^1.3.3",
+    "commander": "^2.20.0",
+    "inquirer": "^6.4.1",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
