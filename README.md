@@ -1,3 +1,4 @@
+[![NPM Version](https://img.shields.io/npm/v/project-translator)](https://www.npmjs.com/package/project-translator)
 [![Build Status](https://travis-ci.com/douglasskiser/project-translator.svg?token=ayjxjPepPztxATpEppTC&branch=master)](https://travis-ci.com/douglasskiser/project-translator)
 
 # project-translator
