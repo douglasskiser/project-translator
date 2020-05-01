@@ -13,7 +13,9 @@
   "scripts": {
     "test": "node ./test/index.js | tap-spec",
     "lint": "./node_modules/.bin/eslint ./lib/*.js ./lib/**/*.js",
-    "translate": "node bin/index"
+    "translate": "node bin/index",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Douglass Kiser",
   "license": "MIT",
@@ -28,8 +30,10 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0",
-    "rewire": "^4.0.1",
+    "rewire": "^5.0.0",
+    "snyk": "^1.316.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.10.1"
-  }
+  },
+  "snyk": true
 }
