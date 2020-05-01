@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0",
-    "rewire": "^4.0.1",
+    "rewire": "^5.0.0",
     "snyk": "^1.316.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.10.1"
