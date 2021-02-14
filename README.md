@@ -20,3 +20,18 @@ First, you need to create a configuration file. You can do this by going to the 
   
 ### File/File-Name Structure
 The translator uses the translations directory provided as the path for all translation files. The translator assumes everything is in JSON and it also assumes a naming translations file naming convention that begins with a two letter language code (e.g 'en.json' or 'en-US.json'). The translator also assumes that your JSON file is composed of objects and strings.
+
+Example File
+```javascript
+// en-US.json
+{
+  "my-label": "My Label",
+  "app-section: {
+    "section-label": "Label for a section"
+    "section-header": {
+      "title": "A Title",
+      "description" "A description"
+    }
+  }
+}
+ ```
