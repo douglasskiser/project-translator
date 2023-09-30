@@ -2,15 +2,6 @@ export type NestedObject = {
     [key:string]: string | object | undefined
 }
 
-async function translateText(text: string, target: string, translate: (text: string, target: string) => Promise<string[]>) {
-    try {
-        const results = await translate(text, target);
-        return results[0];
-    } catch (err) {
-        throw new Error(err);
-    }
-}
-
 function getValue(source: NestedObject, path: string | string[]): string | object | undefined {
     const _path = typeof path === 'string' ? path.split('.') : path;
     const [head, ...rest] = _path;
@@ -58,5 +49,5 @@ async function generateDiffWithCount(source: NestedObject, target: NestedObject,
 }
 
 export {
-    generateDiffWithCount, translateText
+    generateDiffWithCount
 }

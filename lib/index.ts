@@ -8,9 +8,10 @@ import { TranslateCommand } from './actions/translate';
 
 
 async function main() {
+    console.log('\n');
     const program = new Command();
     const initCommand = new InitCommand();
-const translateCommand = new TranslateCommand();
+    const translateCommand = new TranslateCommand();
     program.version('2.0.0');
     program.description('A project translator');
     process.on('unhandledRejection', (err: Error) => {
@@ -39,13 +40,16 @@ const translateCommand = new TranslateCommand();
                 .action(async () => await command.action());
         });
     [initCommand, translateCommand].forEach(command => {
-        command.on('start', () => console.log('starting'));
+        command.on('start', () => console.log('starting translator...\n'));
         command.on('info', (message: string) => console.log(message));
         command.on('error', (err: Error) => {
             createErrorLog(err);
             onExit(1, program);
         });
-        command.on('done', (message?: string) => console.log(message || 'done'));
+        command.on('done', (message?: string) => {
+            message && console.log(message);
+            console.log('\n');
+        });
     });
     await program.parseAsync();
 }
