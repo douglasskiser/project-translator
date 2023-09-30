@@ -64,7 +64,7 @@ Example Source Translation File
  ```json
  {
   "provider": "custom",
-  "translatorPath": "./path-to/custom-translator.js
+  "translatorPath": "./path-to/custom-translator.js"
  }
  ```
 

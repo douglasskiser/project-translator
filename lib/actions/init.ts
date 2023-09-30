@@ -14,9 +14,6 @@ import { AWS, GOOGLE, CUSTOM } from '../constants/providers';
 import { EventEmitter } from 'events';
 
 export class InitCommand extends EventEmitter {
-    constructor() {
-        super();
-    }
     async run() {
         this.emit('start');
         try {

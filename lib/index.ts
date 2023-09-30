@@ -5,8 +5,6 @@ import { createErrorLog } from './utils/log';
 import { InitCommand } from './actions/init';
 import { TranslateCommand } from './actions/translate';
 
-
-
 async function main() {
     console.log('\n');
     const program = new Command();
@@ -40,7 +38,6 @@ async function main() {
                 .action(async () => await command.action());
         });
     [initCommand, translateCommand].forEach(command => {
-        command.on('start', () => console.log('starting translator...\n'));
         command.on('info', (message: string) => console.log(message));
         command.on('error', (err: Error) => {
             createErrorLog(err);

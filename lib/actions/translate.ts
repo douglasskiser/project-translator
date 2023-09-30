@@ -32,9 +32,6 @@ export class TranslateCommand extends EventEmitter {
         invalidConfigurations: 'translaterc.json file has invalid configurations',
         fileTranslated: (outputLanguage: string) => `${outputLanguage} has been translated`
     }
-    constructor() {
-        super();
-    }
     async run() {
         try {
             this.emit('start');
