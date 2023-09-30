@@ -1,39 +1,44 @@
 {
   "name": "project-translator",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "A project translator",
-  "main": "./lib/index.js",
+  "main": "bin/index.js",
   "bin": {
-    "project-translator": "./bin/index.js"
+    "project-translator": "bin/index.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/douglasskiser/project-translator.git"
   },
   "scripts": {
-    "test": "node ./test/index.js | tap-spec",
-    "lint": "./node_modules/.bin/eslint ./lib/*.js ./lib/**/*.js",
-    "translate": "node bin/index",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "test": "node -r esbuild-register test/runner.ts",
+    "coverage": "node --experimental-test-coverage -r esbuild-register test/runner.ts",
+    "types:check": "tsc --noEmit ./lib/index.ts",
+    "build": "npm run types:check && esbuild ./lib/index.ts --bundle --minify --platform=node --format=cjs --outfile=bin/index.js",
+    "start": "npm run build && node bin/index.js",
+    "lint": "eslint lib/**/*.ts"
   },
-  "author": "Douglass Kiser",
+  "author": "Doug Kiser",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/translate": "^6.1.0",
-    "aws-sdk": "^2.449.0",
-    "cli-progress": "^2.1.1",
-    "colors": "^1.3.3",
-    "commander": "^2.20.0",
-    "inquirer": "^6.4.1",
-    "lodash": "^4.17.20"
+    "@aws-sdk/client-translate": "^3.418.0",
+    "@google-cloud/translate": "^8.0.2",
+    "commander": "^11.0.0",
+    "esbuild": "^0.19.3",
+    "eslint": "^8.48.0",
+    "inquirer": "^9.2.11",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "rewire": "^5.0.0",
-    "snyk": "^1.316.1",
-    "tap-spec": "^5.0.0",
-    "tape": "^4.10.1"
+    "@types/inquirer": "^9.0.3",
+    "@types/lodash": "^4.14.199",
+    "@types/node": "^20.6.2",
+    "@types/sinon": "^10.0.17",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "esbuild-register": "^3.5.0",
+    "sinon": "^16.0.0",
+    "typescript": "^5.2.2"
   },
   "snyk": true
 }

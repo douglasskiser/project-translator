@@ -2,26 +2,43 @@
 [![Build Status](https://travis-ci.com/douglasskiser/project-translator.svg?token=ayjxjPepPztxATpEppTC&branch=master)](https://travis-ci.com/douglasskiser/project-translator)
 
 # project-translator
-A translator for web applications that uses providers such as Google and AWS.
+A translator for web applications that uses AWS, GCP, or any custom provider.
 
 ## Install
-`npm i -g project-translator`
+`npm i project-translator`
 
-### Use
-First, you need to create a configuration file. You can do this by going to the root of your project and running `project-translator init`. The prompts will ask some questions about your project and provider and create a ./translaterc.json file for you. After you have your project configured you can run the translator using `project-translator translate` to generate your translations.
+### Setup
+To configure your project to use the project-translator you only need `.translaterc.json` file in the root of your project. You can run `project-translator init` to auto generate this file.
+
+Example .translaterc.json
+```javascript
+{
+  "provider": "aws", // aws | google | custom
+  "translationDir": "lib/translations",
+  "sourceLanguage": "en-US",
+  "outputLanguages": [
+    "fr-FR", "es-ES"
+  ],
+  "region": "us-east-1" // when using AWS
+  "projectId": "my-project1" // when using Google
+}
+ ```
 
 ### Google Setup
-  Before running you will need to export your Google Application Credentials so that you can authenticate with Google's service.
-  `export GOOGLE_APPLICATION_CREDENTIALS="./path-to/credentials.json"`
+To use Google as your translate provider you will need to export your application credentials so that you can authenticate with Google's service.
+
+```sh
+export GOOGLE_APPLICATION_CREDENTIALS="./path-to/credentials.json"
+```
 
 ### AWS Setup
-  Use the same setup as you would to use the aws-cli found here https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+To use AWS as your translate provider, follow the aws-cli setup found here https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
    
   
 ### File/File-Name Structure
-The translator uses the translations directory provided as the path for all translation files. The translator assumes everything is in JSON and it also assumes a naming translations file naming convention that begins with a two letter language code (e.g 'en.json' or 'en-US.json'). The translator also assumes that your JSON file is composed of objects and strings.
+Translation files shoud be in JSON format and use naming convention that beings with a two letter language code  (e.g 'en.json' or 'en-US.json'). While translating the translations directory provided in the configuration file as `translationsDir` will be used to find, create or update translation files.
 
-Example File
+Example Source Translation File
 ```javascript
 // en-US.json
 {
@@ -30,8 +47,37 @@ Example File
     "section-label": "Label for a section"
     "section-header": {
       "title": "A Title",
-      "description" "A description"
-    }
+      "description": "A description"
+    },
+    "another.section.header": "Title"
   }
 }
+ ```
+
+ ### Use
+
+ To start translating, ensure you have a source language file in your translations directory. This source file's language code should be configured in your `.translaterc.json` file. Now run `project-translator translate` if installed globally otherwise add to your package.json scripts.
+
+ ### Custom Translate Provider
+
+ To use a customer provider you can provide these values in your `.translaterc.json` file.
+
+ ```json
+ {
+  "provider": "custom",
+  "translatorPath": "./path-to/custom-translator.js
+ }
+ ```
+
+ Example Custom Translator
+ ```javascript
+ function customTranslator() {
+  return {
+    translate:
+      (sourceLanguage:string, targetLanguage:string) => async function(text:string) {
+        const translatedText = await customProvider(text, sourceLanguage, targetLanguage);
+        return traslatedText;
+      }
+  };
+ }
  ```
