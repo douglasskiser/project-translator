@@ -4,7 +4,7 @@
 A translator for web applications that uses AWS, GCP, or any custom provider.
 
 ## Install
-`npm i project-translator`
+`npx project-translator` or `npm i project-translator`
 
 ### Setup
 To configure your project to use the project-translator you only need `.translaterc.json` file in the root of your project. You can run `project-translator init` to auto generate this file.
@@ -53,9 +53,20 @@ Example Source Translation File
 }
  ```
 
- ### Use
+ ### Use Translator
+`npx project-translator translate`
 
- To start translating, ensure you have a source language file in your translations directory. This source file's language code should be configured in your `.translaterc.json` file. Now run `project-translator translate` if installed globally otherwise add to your package.json scripts.
+
+ To start translating, ensure you have a source language file in your translations directory. This source file's language code should be configured in your `.translaterc.json` file. Now run `npx project-translator translate` or install and use in your package.json scripts.
+
+ Example package.json
+ ```json
+ {
+  "scripts": {
+    "translate": "project-translator translate"
+  }
+ }
+ ```
 
  ### Custom Translate Provider
 
@@ -70,11 +81,13 @@ Example Source Translation File
 
  Example Custom Translator
  ```javascript
- function customTranslator() {
+ export default function customTranslator() {
   return {
     translate:
       (sourceLanguage:string, targetLanguage:string) => async function(text:string) {
+        // put you custom translate code here.
         const translatedText = await customProvider(text, sourceLanguage, targetLanguage);
+        // Ensure it returns the translated text.
         return translatedText;
       }
   };
