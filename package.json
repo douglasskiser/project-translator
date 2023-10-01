@@ -1,6 +1,6 @@
 {
   "name": "project-translator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A project translator",
   "main": "bin/index.js",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/douglasskiser/project-translator.git"
+    "url": "git+https://github.com/douglasskiser/project-translator.git"
   },
   "scripts": {
     "test": "node -r esbuild-register test/runner.ts",
