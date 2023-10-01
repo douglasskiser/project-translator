@@ -4,7 +4,12 @@
 A translator for web applications that uses AWS, GCP, or any custom provider.
 
 ## Install
-`npx project-translator` or `npm i project-translator`
+```sh
+npx project-translator
+```
+```sh
+npm i --save-dev project-translator
+```
 
 ### Setup
 To configure your project to use the project-translator you only need `.translaterc.json` file in the root of your project. You can run `project-translator init` to auto generate this file.
@@ -42,14 +47,12 @@ Example Source Translation File
 // en-US.json
 {
   "my-label": "My Label",
-  "app-section: {
-    "section-label": "Label for a section"
-    "section-header": {
-      "title": "A Title",
-      "description": "A description"
-    },
-    "another.section.header": "Title"
-  }
+  "section-label": "Label for a section",
+  "section-header": {
+    "title": "A Title",
+    "description": "A description"
+  },
+  "another.section.header": "Title"
 }
  ```
 
