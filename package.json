@@ -1,6 +1,6 @@
 {
   "name": "project-translator",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A project translator",
   "main": "bin/index.js",
   "bin": {
@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-translate": "^3.418.0",
+    "@formatjs/icu-messageformat-parser": "^2.7.6",
     "@google-cloud/translate": "^8.0.2",
     "commander": "^11.0.0",
     "esbuild": "^0.19.3",

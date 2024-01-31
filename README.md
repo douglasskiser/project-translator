@@ -23,8 +23,9 @@ Example .translaterc.json
   "outputLanguages": [
     "fr-FR", "es-ES"
   ],
-  "region": "us-east-1" // when using AWS
-  "projectId": "my-project1" // when using Google
+  "region": "us-east-1", // when using AWS
+  "projectId": "my-project1", // when using Google
+  "useIcuLabels": true // when using ICU labels
 }
  ```
 
