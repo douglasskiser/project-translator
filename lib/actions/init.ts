@@ -83,7 +83,7 @@ export class InitCommand extends EventEmitter {
                 default: 'es-ES,fr-FR,ja-JP'
             },
             {
-                name: 'useIcuLabel',
+                name: 'useIcuLabels',
                 message: 'Are you using ICU labels?.',
                 type: 'confirm'
             },

@@ -123,7 +123,7 @@ async function translateIcuLabel(icuLabel: string, transformer?: (v: string) => 
     return replaceSlugsInIcuLabel(value, transformedSlugs);
 }
 
-async function generateDiffWithCount(source: NestedObject, target: NestedObject, transformer?: (v: string) => Promise<string>, useIcuLabel: boolean = false) : Promise<[NestedObject, number]> {
+async function generateDiffWithCount(source: NestedObject, target: NestedObject, transformer?: (v: string) => Promise<string>, useIcuLabels: boolean = false) : Promise<[NestedObject, number]> {
     let diff: NestedObject = {};
     let count = 0;
     async function getDiff(cb: (v: NestedObject) => void, path?: string[], prefix: string[] = [], value?: object | undefined) {
@@ -135,11 +135,11 @@ async function generateDiffWithCount(source: NestedObject, target: NestedObject,
                 return getDiff(cb, !path ? [firstPathKey || key] : restOfPathKeys, [...prefix, key], entryValue)
             }
             const targetPath = !path ? [key] : [...prefix, key];
-            if (!getValue(target, targetPath) && !useIcuLabel) {
+            if (!getValue(target, targetPath) && !useIcuLabels) {
                 const value = transformer ? await transformer(entryValue): entryValue;
                 return cb(setValue(diff, targetPath, value));
             }
-            if (!getValue(target, targetPath) && useIcuLabel) {
+            if (!getValue(target, targetPath) && useIcuLabels) {
                 const value = await translateIcuLabel(entryValue, transformer);
                 return cb(setValue(diff, targetPath, value));
             }

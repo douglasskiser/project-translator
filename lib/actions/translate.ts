@@ -8,7 +8,7 @@ interface TranslateOptions {
     region?: string
     projectId?: string
     translatorPath?: string
-    useIcuLabel?: boolean
+    useIcuLabels?: boolean
 }
 
 interface Translator {
@@ -54,7 +54,7 @@ export class TranslateCommand extends EventEmitter {
                     targetLanguage,
                     options.translationDir,
                     translator,
-                    options.useIcuLabel
+                    options.useIcuLabels
                 )
             }));
             this.emit('done', this.messages.translationComplete);
@@ -86,7 +86,7 @@ async getOptions() {
         outputLanguage: string,
         translateDir: string,
         translator: { translate: (s: string, t: string) => (v: string) => Promise<string> },
-        useIcuLabel: boolean | undefined = false
+        useIcuLabels: boolean | undefined = false
     ) {
         const sourceLanguageFile = await this.getLanguageFile(inputLanguage, translateDir) as NestedObject;
         const targetLanguageFile = await this.getLanguageFile(outputLanguage, translateDir) as NestedObject;
@@ -94,7 +94,7 @@ async getOptions() {
             this._debug && this.emit('info', this.messages.translateFromTo(text, inputLanguage, outputLanguage));
             return translator.translate(inputLanguage, outputLanguage)(text);
         }
-        const [delta, count] = await generateDiffWithCount(sourceLanguageFile, targetLanguageFile || {}, translatorWithLog, useIcuLabel);
+        const [delta, count] = await generateDiffWithCount(sourceLanguageFile, targetLanguageFile || {}, translatorWithLog, useIcuLabels);
         if (count) {
             const path: string = resolve(translateDir + `/${outputLanguage}.json`);
             await writeFile(path, JSON.stringify(merge(targetLanguageFile || {}, delta), null, 2));
