@@ -82,6 +82,11 @@ export class InitCommand extends EventEmitter {
                 type: 'input',
                 default: 'es-ES,fr-FR,ja-JP'
             },
+            {
+                name: 'useIcuLabel',
+                message: 'Are you using ICU labels?.',
+                type: 'confirm'
+            },
             provider === 'aws' && {
                 name: 'region',
                 message: 'Enter AWS region.',

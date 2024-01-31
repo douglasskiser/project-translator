@@ -8,6 +8,7 @@ interface TranslateOptions {
     region?: string
     projectId?: string
     translatorPath?: string
+    useIcuLabel?: boolean
 }
 
 interface Translator {
@@ -25,12 +26,17 @@ import { RC_FILE_PATH } from '../constants/rc';
 import {EventEmitter} from 'events';
 
 export class TranslateCommand extends EventEmitter {
+    _debug = false;
     messages = {
         translateFromTo: (text: string, inputLanguage: string, outputLanguage: string) => `Translating ${text} from ${inputLanguage} to ${outputLanguage}`,
         noRcFileError: 'translaterc.json file does not exist. run `translate init` to create one',
         nothingNewToTranslate: (outputLanguage: string) => `${outputLanguage} has nothing new to translate`,
         invalidConfigurations: 'translaterc.json file has invalid configurations',
-        fileTranslated: (outputLanguage: string) => `${outputLanguage} has been translated`
+        fileTranslated: (outputLanguage: string) => `${outputLanguage} has been translated`,
+        translationComplete: 'translation complete...'
+    }
+    debug() {
+        this._debug = true;
     }
     async run() {
         try {
@@ -47,15 +53,16 @@ export class TranslateCommand extends EventEmitter {
                     options.sourceLanguage,
                     targetLanguage,
                     options.translationDir,
-                    translator
+                    translator,
+                    options.useIcuLabel
                 )
             }));
-            this.emit('done');
+            this.emit('done', this.messages.translationComplete);
         } catch (err) {
             this.emit('error', err);
         }
     }
-    async getOptions() {
+async getOptions() {
         const isRcFile = await doesFileExist(resolve(RC_FILE_PATH));
         if (!isRcFile) {
             throw new Error(this.messages.noRcFileError);
@@ -78,21 +85,22 @@ export class TranslateCommand extends EventEmitter {
         inputLanguage: string,
         outputLanguage: string,
         translateDir: string,
-        translator: { translate: (s: string, t: string) => (v: string) => Promise<string> }
+        translator: { translate: (s: string, t: string) => (v: string) => Promise<string> },
+        useIcuLabel: boolean | undefined = false
     ) {
         const sourceLanguageFile = await this.getLanguageFile(inputLanguage, translateDir) as NestedObject;
         const targetLanguageFile = await this.getLanguageFile(outputLanguage, translateDir) as NestedObject;
         const translatorWithLog = (text: string) => {
-            this.emit('info', this.messages.translateFromTo(text, inputLanguage, outputLanguage));
+            this._debug && this.emit('info', this.messages.translateFromTo(text, inputLanguage, outputLanguage));
             return translator.translate(inputLanguage, outputLanguage)(text);
         }
-        const [delta, count] = await generateDiffWithCount(sourceLanguageFile, targetLanguageFile || {}, translatorWithLog);
+        const [delta, count] = await generateDiffWithCount(sourceLanguageFile, targetLanguageFile || {}, translatorWithLog, useIcuLabel);
         if (count) {
             const path: string = resolve(translateDir + `/${outputLanguage}.json`);
             await writeFile(path, JSON.stringify(merge(targetLanguageFile || {}, delta), null, 2));
-            this.emit('info', this.messages.fileTranslated(outputLanguage))
+            this._debug && this.emit('info', this.messages.fileTranslated(outputLanguage))
         } else {
-            this.emit('info', this.messages.nothingNewToTranslate(outputLanguage));
+            this._debug && this.emit('info', this.messages.nothingNewToTranslate(outputLanguage));
         }
     }
     async getLanguageFile(outputLanguage: string, translationsDirectory: string) {
@@ -122,7 +130,7 @@ export class TranslateCommand extends EventEmitter {
     }
     isOptionValid(options: TranslateOptions, option: TranslateOptionsAttribute) {
         const isValid = options[option] !== undefined;
-        !isValid && this.emit('info', `Invalid or missing configuration for ${option}`);
+        !isValid && this._debug && this.emit('info', `Invalid or missing configuration for ${option}`);
         return isValid;
     }
 }

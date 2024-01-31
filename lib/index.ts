@@ -27,7 +27,13 @@ async function main() {
             name: 'translate',
             alias: 't',
             description: 'Translate project labels.',
-            action: async () => await translateCommand.run()
+            action: async (options: {debug: boolean}) => {
+                options.debug && translateCommand.debug();
+                await translateCommand.run()
+            },
+            options: [
+                ['-d', 'display logs']
+            ]
         }
     ]
         .forEach(command => {
@@ -35,7 +41,13 @@ async function main() {
                 .command(command.name)
                 .alias(command.alias)
                 .description(command.description)
-                .action(async () => await command.action());
+                .action(async (options) => await command.action(options));
+            if (command.options && command.options.length) {
+                command.options.forEach(option => {
+                    program.option(option[0], option[1])
+                })
+            }
+            
         });
     [initCommand, translateCommand].forEach(command => {
         command.on('info', (message: string) => console.log(message));
