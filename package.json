@@ -21,7 +21,7 @@
   "author": "Doug Kiser",
   "license": "MIT",
   "dependencies": {
-    "@aws-sdk/client-translate": "^3.418.0",
+    "@aws-sdk/client-translate": "^3.529.0",
     "@formatjs/icu-messageformat-parser": "^2.7.6",
     "@google-cloud/translate": "^8.0.2",
     "commander": "^11.0.0",
